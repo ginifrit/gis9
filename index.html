@@ -31,6 +31,7 @@
             color: var(--text-main);
             min-height: 100vh;
             overflow-x: hidden;
+            margin: 0;
         }
 
         /* --- LAYOUT --- */
@@ -51,6 +52,7 @@
             display: flex; flex-direction: column;
             position: relative;
             transition: margin-left 0.3s;
+            width: 100%;
         }
 
         /* --- SIDEBAR COMPONENTS --- */
@@ -88,11 +90,12 @@
             position: relative; height: 420px; overflow: hidden;
             margin: 20px; border-radius: 20px; box-shadow: var(--glass-shadow);
             border: 1px solid var(--glass-border);
+            background: #000;
         }
         .hero-section iframe {
             width: 100vw; height: 56.25vw; min-height: 100vh; min-width: 100vw;
             position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-            opacity: 0.7; pointer-events: none;
+            opacity: 0.6; pointer-events: none;
         }
         .hero-overlay {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
@@ -422,9 +425,8 @@
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-
 <script>
-    // --- DATA DARI PHP DITUKAR KE JS ---
+    // --- 1. DATA CONFIGURATION (Converted from PHP) ---
     const apps = [
         { "title": "Pemetaan Awam", "url": "https://gis9.ns.gov.my/arcgisportal/apps/webappviewer/index.html?id=7a319cbeff7c4b9a9f2dfc569580db13", "cat": "Awam", "desc": "Carian lot dan maklumat asas tanah." },
         { "title": "NS Kampung Kito", "url": "https://gis9.ns.gov.my/arcgisportal/apps/webappviewer/index.html?id=9cec57e1916442079951795208d6c56c", "cat": "Awam", "desc": "Profil dan demografi kampung tradisional." },
@@ -475,7 +477,6 @@
         {"agensi": "Jabatan Pertanian Negeri Sembilan", "data": "Data Padi Negeri Sembilan", "status": "Tidak Terhad"},
         {"agensi": "Jabatan Perhutanan Negeri Sembilan", "data": "Sempadan & Pengkelasan Hutan", "status": "Terhad"},
         {"agensi": "Jabatan Pengairan Dan Saliran Negeri Sembilan", "data": "Lembangan Sungai, Kolam Tadahan", "status": "Terhad/Tidak Terhad"},
-        {"agensi": "Jabatan Hal Ehwal Agama Islam Negeri Sembilan", "data": "Lokasi Masjid & Surau", "status" => "Tidak Terhad"}, // Fixed typo in copy paste
         {"agensi": "Jabatan Hal Ehwal Agama Islam Negeri Sembilan", "data": "Lokasi Masjid & Surau", "status": "Tidak Terhad"},
         {"agensi": "Jabatan Pendidikan Negeri Sembilan", "data": "Lokasi Sekolah", "status": "Tidak Terhad"},
         {"agensi": "Jabatan Kesihatan Negeri Sembilan", "data": "Fasiliti Kesihatan", "status": "Tidak Terhad"},
@@ -507,7 +508,7 @@
         { "q": "Siapakah yang perlu saya hubungi jika mempunyai pertanyaan lanjut?", "a": "Anda boleh menghubungi pentadbir GIS9 melalui butiran berikut:<br>Telefon: 06-7659713<br>Emel: gis9@ns.gov.my<br>Laman Web: gis9.ns.gov.my" }
     ];
 
-    // --- HELPER FUNCTIONS ---
+    // --- 2. HELPER FUNCTIONS ---
     function getIcon(title) {
         let t = title.toLowerCase();
         if (t.includes('banjir') || t.includes('air')) return 'fa-water';
@@ -527,11 +528,14 @@
         return 'fa-map';
     }
 
-    // --- RENDER FUNCTIONS ---
+    // --- 3. RENDER FUNCTIONS ---
+    
+    // Render Application Grid
     function renderApps() {
         const grid = document.getElementById('appGrid');
-        grid.innerHTML = '';
+        if(!grid) return;
         
+        grid.innerHTML = '';
         apps.forEach(app => {
             const icon = getIcon(app.title);
             const html = `
@@ -550,21 +554,23 @@
         });
     }
 
+    // Render Catalog Data
     function renderCatalog() {
         const grid = document.getElementById('catalogGrid');
+        if(!grid) return;
+
         grid.innerHTML = '';
         
-        // Grouping logic (replaces PHP array grouping)
+        // Grouping logic (Agensi as Key)
         const grouped = {};
         rawData.forEach(item => {
             if (!grouped[item.agensi]) grouped[item.agensi] = [];
             grouped[item.agensi].push(item);
         });
 
-        // Sorting Keys Alphabetically
+        // Sort keys alphabetically
         const sortedAgencies = Object.keys(grouped).sort();
 
-        let count = 0;
         sortedAgencies.forEach((agensi, index) => {
             const items = grouped[agensi];
             let listHtml = '';
@@ -599,14 +605,18 @@
                 </div>
             `;
             grid.innerHTML += html;
-            count++;
         });
         
-        document.getElementById('totalDataCount').innerText = rawData.length + " Dataset";
+        if(document.getElementById('totalDataCount')) {
+            document.getElementById('totalDataCount').innerText = rawData.length + " Dataset";
+        }
     }
 
+    // Render FAQs
     function renderFaq() {
         const list = document.getElementById('faqList');
+        if(!list) return;
+
         list.innerHTML = '';
         
         faqs.forEach((f, k) => {
@@ -627,7 +637,9 @@
         });
     }
 
-    // --- INIT ---
+    // --- 4. INIT & EVENTS ---
+    
+    // Run when page loads
     document.addEventListener('DOMContentLoaded', () => {
         renderApps();
         renderCatalog();
@@ -635,29 +647,36 @@
         updateStats(); // Clock and Visitor count
     });
 
-
-    // --- NAVIGATION LOGIC ---
+    // Navigation View Switcher
     function switchView(id) {
         document.querySelectorAll('.spa-view').forEach(el => el.classList.remove('active'));
         document.querySelectorAll('.nav-link').forEach(el => el.classList.remove('active'));
-        document.getElementById('view-' + id).classList.add('active');
-        if(document.getElementById('lnk-' + id)) document.getElementById('lnk-' + id).classList.add('active');
+        
+        const view = document.getElementById('view-' + id);
+        if(view) view.classList.add('active');
+        
+        const link = document.getElementById('lnk-' + id);
+        if(link) link.classList.add('active');
         
         if(id === 'home') {
             window.scrollTo({ top: 0, behavior: 'smooth' });
         } else {
-            const offset = document.querySelector('.hero-section').offsetHeight;
-            window.scrollTo({ top: offset, behavior: 'smooth' });
+            const hero = document.querySelector('.hero-section');
+            if(hero) window.scrollTo({ top: hero.offsetHeight, behavior: 'smooth' });
         }
         
-        if(window.innerWidth < 992) document.getElementById('sidebar').style.marginLeft = '-280px';
-    }
-    function toggleSidebar() {
-        const s = document.getElementById('sidebar');
-        s.style.marginLeft = s.style.marginLeft === '0px' ? '-280px' : '0px';
+        if(window.innerWidth < 992) {
+            const s = document.getElementById('sidebar');
+            if(s) s.style.marginLeft = '-280px';
+        }
     }
 
-    // --- UTILS ---
+    function toggleSidebar() {
+        const s = document.getElementById('sidebar');
+        if(s) s.style.marginLeft = s.style.marginLeft === '0px' ? '-280px' : '0px';
+    }
+
+    // Statistics Logic
     function updateStats() {
         const d = new Date();
         const doy = Math.floor((d - new Date(d.getFullYear(), 0, 0)) / 1000 / 60 / 60 / 24);
@@ -665,10 +684,12 @@
         let week = 890 + (doy % 7 * 60);
         let month = 3500 + (doy % 30 * 120);
         let year = 45000 + (doy * 150);
-        let h = parseInt(localStorage.getItem('g9_hits') || 0);
-        h++; localStorage.setItem('g9_hits', h);
         
-        // Safety check if elements exist before updating
+        // Simple hit counter simulation
+        let h = parseInt(localStorage.getItem('g9_hits') || 0);
+        h++; 
+        localStorage.setItem('g9_hits', h);
+        
         if(document.getElementById('v-today')) {
             document.getElementById('v-today').innerText = (day+h).toLocaleString();
             document.getElementById('v-week').innerText = (week+h).toLocaleString();
@@ -677,9 +698,10 @@
         }
         if(document.getElementById('clock')) document.getElementById('clock').innerText = d.toLocaleString('ms-MY');
     }
+    // Update clock every second
     setInterval(updateStats, 1000);
 
-    // --- FILTER ---
+    // App Filter Logic
     function filterApps(cat, btn) {
         document.querySelectorAll('.pill-filter').forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
@@ -687,51 +709,79 @@
         document.querySelectorAll('.app-box').forEach(el => {
             if(cat==='all'||el.dataset.cat===cat){el.style.display='block';c++;}else el.style.display='none';
         });
-        document.getElementById('noApps').classList.toggle('d-none', c===0);
+        const noApps = document.getElementById('noApps');
+        if(noApps) noApps.classList.toggle('d-none', c>0);
     }
-    document.getElementById('appSearch').onkeyup = function() {
-        let v=this.value.toLowerCase(), c=0;
-        document.querySelectorAll('.app-box').forEach(el => {
-            if(el.dataset.title.includes(v)){el.style.display='block';c++;}else el.style.display='none';
-        });
-        document.getElementById('noApps').classList.toggle('d-none', c===0);
-    };
+    
+    // App Search Logic
+    const appSearch = document.getElementById('appSearch');
+    if(appSearch) {
+        appSearch.onkeyup = function() {
+            let v=this.value.toLowerCase(), c=0;
+            document.querySelectorAll('.app-box').forEach(el => {
+                if(el.dataset.title.includes(v)){el.style.display='block';c++;}else el.style.display='none';
+            });
+            const noApps = document.getElementById('noApps');
+            if(noApps) noApps.classList.toggle('d-none', c>0);
+        };
+    }
 
-    // --- CATALOG INTERACTION ---
+    // Catalog Logic
     function toggleAgency(id) {
         const body = document.getElementById('ag-body-' + id);
-        body.classList.toggle('show');
+        if(body) body.classList.toggle('show');
     }
+    
     function toggleCatalog() {
         const all = document.querySelectorAll('.agency-body');
         const anyOpen = Array.from(all).some(el => el.classList.contains('show'));
         all.forEach(el => anyOpen ? el.classList.remove('show') : el.classList.add('show'));
     }
-    document.getElementById('dataSearch').onkeyup = function() {
-        let v=this.value.toLowerCase(), c=0;
-        document.querySelectorAll('.agency-box').forEach(el => {
-            let m = el.dataset.ag.includes(v);
-            let im = false;
-            el.querySelectorAll('.dataset-row').forEach(r => {
-                if(r.dataset.txt.includes(v)){r.style.display='flex';im=true;}else if(!m)r.style.display='none';
+    
+    // Data Search Logic
+    const dataSearch = document.getElementById('dataSearch');
+    if(dataSearch) {
+        dataSearch.onkeyup = function() {
+            let v=this.value.toLowerCase(), c=0;
+            document.querySelectorAll('.agency-box').forEach(el => {
+                let m = el.dataset.ag.includes(v);
+                let im = false;
+                el.querySelectorAll('.dataset-row').forEach(r => {
+                    if(r.dataset.txt.includes(v)){r.style.display='flex';im=true;}else if(!m)r.style.display='none';
+                });
+                
+                const body = el.querySelector('.agency-body');
+                if(m||im){
+                    el.style.display='block';
+                    c++; 
+                    if(v.length>0 && body) body.classList.add('show');
+                } else {
+                    el.style.display='none';
+                }
             });
-            if(m||im){el.style.display='block';c++; if(v.length>0) el.querySelector('.agency-body').classList.add('show');}
-            else el.style.display='none';
-        });
-        document.getElementById('noData').classList.toggle('d-none', c===0);
-    };
+            const noData = document.getElementById('noData');
+            if(noData) noData.classList.toggle('d-none', c>0);
+        };
+    }
 
-    // --- LEGAL ---
+    // Modal Info Logic
     const infoData = {
         'privasi': "<strong>DASAR PRIVASI</strong>\n\nHalaman ini menerangkan dasar privasi...",
         'keselamatan': "<strong>DASAR KESELAMATAN</strong>\n\nTeknologi terkini...",
         'terma': `<strong>TERMA & SYARAT</strong>\n\nJika anda mengakses laman web ini...`,
         'penafian': `<strong>PENAFIAN</strong>\n\nSemua maklumat...`
     };
+    
     function openInfo(k) {
-        document.getElementById('infoTitle').innerText = k.toUpperCase();
-        document.getElementById('infoContent').innerHTML = infoData[k];
-        new bootstrap.Modal(document.getElementById('infoModal')).show();
+        const title = document.getElementById('infoTitle');
+        const content = document.getElementById('infoContent');
+        const modalEl = document.getElementById('infoModal');
+        
+        if(title && content && modalEl) {
+            title.innerText = k.toUpperCase();
+            content.innerHTML = infoData[k];
+            new bootstrap.Modal(modalEl).show();
+        }
     }
 </script>
 </body>
