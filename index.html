@@ -1,127 +1,3 @@
-<?php
-// --- CONFIGURATION ---
-ini_set('display_errors', 0);
-error_reporting(E_ALL);
-
-// ==========================================
-// 1. DATA APLIKASI
-// ==========================================
-$apps = [
-    [ "title" => "Pemetaan Awam", "url" => "https://gis9.ns.gov.my/arcgisportal/apps/webappviewer/index.html?id=7a319cbeff7c4b9a9f2dfc569580db13", "cat" => "Awam", "desc" => "Carian lot dan maklumat asas tanah." ],
-    [ "title" => "NS Kampung Kito", "url" => "https://gis9.ns.gov.my/arcgisportal/apps/webappviewer/index.html?id=9cec57e1916442079951795208d6c56c", "cat" => "Awam", "desc" => "Profil dan demografi kampung tradisional." ],
-    [ "title" => "Rebakan Bandar", "url" => "https://gis9.ns.gov.my/arcgisportal/apps/webappviewer/index.html?id=634d388cc7f34343b15b24b2f0c54139", "cat" => "Awam", "desc" => "Analisis spatial perubahan guna tanah." ],
-    [ "title" => "Masjid & Surau", "url" => "https://gis9.ns.gov.my/arcgisportal/apps/webappviewer/index.html?id=7742210edb004d5d816b4a5de52a8956", "cat" => "Map Gallery", "desc" => "Lokasi masjid dan surau berdaftar." ],
-    [ "title" => "Fasiliti Kesihatan", "url" => "https://gis9.ns.gov.my/arcgisportal/apps/webappviewer/index.html?id=efa73d4a1400491eb7d4948146f05bde", "cat" => "Map Gallery", "desc" => "Hospital, klinik kesihatan dan klinik desa." ],
-    [ "title" => "Perhutanan", "url" => "https://gis9.ns.gov.my/arcgisportal/apps/webappviewer/index.html?id=34288aeb813a4d2c8a5717304d0c57c1", "cat" => "Map Gallery", "desc" => "Hutan simpan kekal dan rekreasi." ],
-    [ "title" => "Pelancongan", "url" => "https://gis9.ns.gov.my/arcgisportal/apps/webappviewer/index.html?id=250964cba55945a0ba7ed54efe333453", "cat" => "Map Gallery", "desc" => "Lokasi menarik dan produk pelancongan." ],
-    [ "title" => "Pertanian", "url" => "https://gis9.ns.gov.my/arcgisportal/apps/webappviewer/index.html?id=ddadba5d12994d95a1ff1a686ffe8555", "cat" => "Map Gallery", "desc" => "Guna tanah pertanian dan jelapang padi." ],
-    [ "title" => "Pengangkutan", "url" => "https://gis9.ns.gov.my/arcgisportal/apps/webappviewer/index.html?id=c408c412ba524f939231c3017c1c11d5", "cat" => "Map Gallery", "desc" => "Jalan raya, rel dan terminal." ],
-    [ "title" => "Pola Petempatan", "url" => "https://gis9.ns.gov.my/arcgisportal/apps/webappviewer/index.html?id=d13f9e2498194cd0ab9d90c83a4d148e", "cat" => "Map Gallery", "desc" => "Taburan perumahan dan penduduk." ],
-    [ "title" => "Saliran Utama", "url" => "https://gis9.ns.gov.my/arcgisportal/apps/webappviewer/index.html?id=3cf0706eaf8b495d9b1066de230c634e", "cat" => "Map Gallery", "desc" => "Sungai dan sistem perparitan utama." ],
-    [ "title" => "Gunatanah Semasa", "url" => "https://gis9.ns.gov.my/arcgisportal/apps/webappviewer/index.html?id=11d2fe0346e0401bb179b5deaf98c85b", "cat" => "Map Gallery", "desc" => "Rujukan perancangan pembangunan." ],
-    [ "title" => "PDRM", "url" => "https://gis9.ns.gov.my/arcgisportal/apps/webappviewer/index.html?id=7360c980d1044dce93d50e6c9a35d239", "cat" => "Map Gallery", "desc" => "IPK, IPD dan balai polis." ],
-    [ "title" => "Pendidikan (JPNS)", "url" => "https://gis9.ns.gov.my/arcgisportal/apps/webappviewer/index.html?id=b728735c4a2240528ca1ebe2b8dd627c", "cat" => "Pemetaan", "desc" => "Lokasi institusi pendidikan." ],
-    [ "title" => "Bencana Banjir", "url" => "https://gis9.ns.gov.my/arcgisportal/apps/webappviewer/index.html?id=8a027eec94694c5c933d483ccd4fb0a0", "cat" => "Pemetaan", "desc" => "Zon risiko banjir dan pusat pemindahan." ],
-    [ "title" => "Risiko Pencemaran", "url" => "https://gis9.ns.gov.my/arcgisportal/apps/webappviewer/index.html?id=07166d2be5814c0f910db172731c37fd", "cat" => "Pemetaan", "desc" => "Lokasi penternakan dan sisa ternakan." ],
-    [ "title" => "Banjir & Kemarau", "url" => "https://gis9.ns.gov.my/arcgisportal/apps/webappviewer/index.html?id=8a027eec94694c5c933d483ccd4fb0a0", "cat" => "Pemetaan", "desc" => "Pengurusan risiko bencana air." ],
-    [ "title" => "Operasi Bomba", "url" => "https://gis9.ns.gov.my/arcgisportal/apps/webappviewer/index.html?id=e1c495da389f4206a49d8beb9e116787", "cat" => "Pemetaan", "desc" => "Perancangan operasi dan pili bomba." ],
-    [ "title" => "Utiliti", "url" => "https://gis9.ns.gov.my/arcgisportal/apps/webappviewer/index.html?id=0223222584f04a9da680f3cafaae5db0", "cat" => "Pemetaan", "desc" => "Infrastruktur utiliti dan telekomunikasi." ],
-    [ "title" => "Pelaburan", "url" => "https://gis9.ns.gov.my/arcgisportal/apps/webappviewer/index.html?id=81ae1165b868495792b4536d115abed6", "cat" => "Pemetaan", "desc" => "Kawasan industri dan lot pelabur." ],
-    [ "title" => "Analisis Rebakan", "url" => "https://gis9.ns.gov.my/arcgisportal/apps/webappviewer/index.html?id=634d388cc7f34343b15b24b2f0c54139", "cat" => "Pemetaan", "desc" => "Arah tuju pembangunan tepu bina." ],
-    [ "title" => "Data Kampung", "url" => "https://gis9.ns.gov.my/arcgisportal/apps/webappviewer/index.html?id=9cec57e1916442079951795208d6c56c", "cat" => "Pemetaan", "desc" => "Pangkalan data geospatial kampung." ],
-    [ "title" => "Tanah SUKNS", "url" => "https://gis9.ns.gov.my/arcgisportal/apps/webappviewer/index.html?id=95dd9113397f484fb695b405521389c6", "cat" => "Pemetaan", "desc" => "Inventori tanah milik kerajaan." ],
-    [ "title" => "Dashboard Aras Air", "url" => "https://gis9.ns.gov.my/arcgisportal/apps/dashboards/2cbd9a9c9c8e4d5d8fcc5ee1c7410845", "cat" => "Dashboard", "desc" => "Stesen aras air dan hujan telemetri." ],
-    [ "title" => "Dashboard Pencemaran", "url" => "https://gis9.ns.gov.my/arcgisportal/apps/dashboards/0c38997d1f9342ddbf4b6a7d1776cf00", "cat" => "Dashboard", "desc" => "Indeks kualiti udara dan air sungai." ],
-    [ "title" => "Dashboard Kemarau", "url" => "https://gis9.ns.gov.my/arcgisportal/apps/dashboards/57297f88f1ce42e88b8ba03f97cc2778", "cat" => "Dashboard", "desc" => "Taburan hujan dan kapasiti empangan." ],
-    [ "title" => "Dashboard Bomba", "url" => "https://gis9.ns.gov.my/arcgisportal/apps/dashboards/728a749551fb4b1bbe832fa5b976d474", "cat" => "Dashboard", "desc" => "Statistik operasi dan aset bomba." ],
-    [ "title" => "Dashboard Utiliti", "url" => "https://gis9.ns.gov.my/arcgisportal/apps/dashboards/2c47f9d3356d430dbeae8a4f8a417171", "cat" => "Dashboard", "desc" => "Pemantauan infrastruktur." ],
-    [ "title" => "Dashboard Pelaburan", "url" => "https://gis9.ns.gov.my/arcgisportal/apps/dashboards/bec73f60e471461da3d97d495f966528", "cat" => "Dashboard", "desc" => "Trend pelaburan dan tanah industri." ],
-    [ "title" => "Dashboard Rebakan", "url" => "https://gis9.ns.gov.my/arcgisportal/apps/dashboards/3f95d69830204668ab0e4bc8515d5413", "cat" => "Dashboard", "desc" => "Pertumbuhan kawasan tepu bina." ],
-    [ "title" => "Dashboard Kampung", "url" => "https://gis9.ns.gov.my/arcgisportal/apps/dashboards/e56680042a544f59add01952cb663054", "cat" => "Dashboard", "desc" => "Statistik penduduk NSKampungKito." ],
-    [ "title" => "Dashboard Tanah", "url" => "https://gis9.ns.gov.my/arcgisportal/apps/dashboards/fa7e8273a5d149daa1edff81dbe177fe", "cat" => "Dashboard", "desc" => "Status tanah milik kerajaan." ],
-    [ "title" => "Dashboard Pendidikan", "url" => "https://gis9.ns.gov.my/arcgisportal/apps/dashboards/6eb7b4cae44543ccac89fc794dfcff85", "cat" => "Dashboard", "desc" => "Statistik sekolah dan institusi." ],
-    [ "title" => "Dashboard Vet", "url" => "https://gis9.ns.gov.my/arcgisportal/apps/dashboards/1a0c0bbb63e34651ad3ddc6e5c42d9c3", "cat" => "Dashboard", "desc" => "Ladang ternakan dan akuakultur." ]
-];
-
-function getIcon($t) {
-    $t = strtolower($t);
-    if (strpos($t, 'banjir')!==false || strpos($t, 'air')!==false) return 'fa-water';
-    if (strpos($t, 'pencemaran')!==false) return 'fa-biohazard';
-    if (strpos($t, 'bomba')!==false) return 'fa-fire-extinguisher';
-    if (strpos($t, 'tanah')!==false || strpos($t, 'rebakan')!==false) return 'fa-map-marked-alt';
-    if (strpos($t, 'pendidikan')!==false || strpos($t, 'sekolah')!==false) return 'fa-graduation-cap';
-    if (strpos($t, 'masjid')!==false) return 'fa-mosque';
-    if (strpos($t, 'kesihatan')!==false) return 'fa-hospital';
-    if (strpos($t, 'hutan')!==false || strpos($t, 'pertanian')!==false) return 'fa-tree';
-    if (strpos($t, 'polis')!==false) return 'fa-user-shield';
-    if (strpos($t, 'pelancongan')!==false) return 'fa-umbrella-beach';
-    if (strpos($t, 'pengangkutan')!==false) return 'fa-bus';
-    if (strpos($t, 'utiliti')!==false) return 'fa-bolt';
-    if (strpos($t, 'pelaburan')!==false) return 'fa-chart-line';
-    if (strpos($t, 'kampung')!==false) return 'fa-home';
-    return 'fa-map';
-}
-
-// ==========================================
-// 2. DATA KATALOG (Nama Penuh)
-// ==========================================
-$raw_data = [
-    ["agensi" => "Jabatan Perancangan Bandar Dan Desa Negeri Sembilan", "data" => "Guna Tanah Semasa Negeri Sembilan", "status" => "Terhad"],
-    ["agensi" => "Jabatan Perancangan Bandar Dan Desa Negeri Sembilan", "data" => "Guna Tanah Zoning Negeri Sembilan", "status" => "Terhad"],
-    ["agensi" => "Jabatan Perancangan Bandar Dan Desa Negeri Sembilan", "data" => "Sempadan MPKK", "status" => "Terhad"],
-    ["agensi" => "Jabatan Perancangan Bandar Dan Desa Negeri Sembilan", "data" => "Guna Tanah Komited Negeri Sembilan", "status" => "Tidak Terhad"],
-    ["agensi" => "Jabatan Perancangan Bandar Dan Desa Negeri Sembilan", "data" => "Guna Tanah Lapang Awam (TLA)", "status" => "Tidak Terhad"],
-    ["agensi" => "Unit Perancang Ekonomi Negeri Sembilan", "data" => "Lokasi Wifi Percuma", "status" => "Tidak Terhad"],
-    ["agensi" => "Jabatan Ukur Dan Pemetaan Malaysia Negeri Sembilan", "data" => "Garisan Sempadan (Negeri, Daerah, Mukim)", "status" => "Tidak Terhad"],
-    ["agensi" => "Jabatan Ukur Dan Pemetaan Malaysia Negeri Sembilan", "data" => "Lot-lot kadaster (NDCDB Lot)", "status" => "Terhad"],
-    ["agensi" => "Jabatan Kerja Raya Negeri Sembilan", "data" => "Jajaran jalan & Cadangan Lingkaran Jalan", "status" => "Terhad"],
-    ["agensi" => "Jabatan Pertanian Negeri Sembilan", "data" => "Data Padi Negeri Sembilan", "status" => "Tidak Terhad"],
-    ["agensi" => "Jabatan Perhutanan Negeri Sembilan", "data" => "Sempadan & Pengkelasan Hutan", "status" => "Terhad"],
-    ["agensi" => "Jabatan Pengairan Dan Saliran Negeri Sembilan", "data" => "Lembangan Sungai, Kolam Tadahan", "status" => "Terhad/Tidak Terhad"],
-    ["agensi" => "Jabatan Hal Ehwal Agama Islam Negeri Sembilan", "data" => "Lokasi Masjid & Surau", "status" => "Tidak Terhad"],
-    ["agensi" => "Jabatan Pendidikan Negeri Sembilan", "data" => "Lokasi Sekolah", "status" => "Tidak Terhad"],
-    ["agensi" => "Jabatan Kesihatan Negeri Sembilan", "data" => "Fasiliti Kesihatan", "status" => "Tidak Terhad"],
-    ["agensi" => "Jabatan Perancangan Bandar Dan Desa Negeri Sembilan", "data" => "Rancangan Tempatan Daerah", "status" => "Terhad"],
-    ["agensi" => "Majlis Bandaraya Seremban", "data" => "Maklumat Taman, Sempadan Perumahan", "status" => "Terhad"],
-    ["agensi" => "Majlis Perbandaran Port Dickson", "data" => "Data Komited C1", "status" => "Terhad"],
-    ["agensi" => "Jabatan Alam Sekitar Negeri Sembilan", "data" => "Stesen Kualiti Air Sungai", "status" => "Tidak Terhad"],
-    ["agensi" => "Syarikat Air Negeri Sembilan", "data" => "Jajaran Paip Air", "status" => "Terhad"],
-    ["agensi" => "Tenaga Nasional Berhad", "data" => "Pencawang & Kabel Elektrik", "status" => "Terhad"],
-    ["agensi" => "Polis Diraja Malaysia", "data" => "Lokasi Balai Polis", "status" => "Terhad"],
-    ["agensi" => "Jabatan Bomba Dan Penyelamat Malaysia Negeri Sembilan", "data" => "Lokasi Balai Bomba & Pili Bomba", "status" => "Terhad"],
-    ["agensi" => "Suruhanjaya Komunikasi dan Multimedia Malaysia", "data" => "Lokasi Menara Telekomunikasi", "status" => "Terhad"],
-    ["agensi" => "Indah Water Konsortium", "data" => "Loji Rawatan Kumbahan", "status" => "Terhad"]
-];
-
-$grouped_data = [];
-foreach ($raw_data as $item) {
-    $agensi = $item['agensi'];
-    if (!isset($grouped_data[$agensi])) $grouped_data[$agensi] = [];
-    $grouped_data[$agensi][] = $item;
-}
-ksort($grouped_data);
-$total_data = count($raw_data);
-
-// ==========================================
-// 3. DATA FAQ
-// ==========================================
-$faqs = [
-    [ "q" => "Apakah itu GIS9?", "a" => "GIS9 adalah singkatan bagi Sistem Maklumat Geografi Negeri Sembilan. Ia merupakan satu sistem aplikasi berasaskan GIS yang dibangunkan untuk menyokong perancangan dan pemantauan guna tanah serta pembangunan infrastruktur data geospatial di peringkat negeri." ],
-    [ "q" => "Siapakah yang menguruskan dan mentadbir GIS9?", "a" => "GIS9 ditadbir urus oleh tiga entiti utama Kerajaan Negeri iaitu Unit Perancang Ekonomi Negeri (UPEN), Unit Pengurusan Teknologi Maklumat (UPTM), dan Jabatan Perancangan Bandar dan Desa Negeri Sembilan (PLANMalaysia Negeri Sembilan) yang bertindak sebagai Pakar Rujuk (Subject Matter Expert). Pentadbiran ini turut dibantu oleh Agensi Pembekal Data (APD)." ],
-    [ "q" => "Apakah visi dan misi GIS9?", "a" => "Visi GIS9 adalah 'Pengurusan Perkhidmatan dan Perkongsian Geospatial ke Arah Negeri Sembilan yang Mampan dan Sejahtera'. Misinya pula adalah menerajui pengurusan dan perkongsian geospatial yang berkualiti dan efisien sebagai pemangkin pertumbuhan ekonomi dan kesejahteraan negeri." ],
-    [ "q" => "Dari manakah data geospatial GIS9 diperolehi?", "a" => "Data diperolehi daripada Agensi Pembekal Data (APD) yang terdiri daripada agensi Kerajaan Negeri dan Persekutuan, Pihak Berkuasa Tempatan (PBT), dan Pejabat Daerah dan Tanah (PDT) yang telah berdaftar dengan pentadbir GIS9. Terdapat 35 agensi yang terlibat sebagai APD setakat Oktober 2023." ],
-    [ "q" => "Apakah jenis data yang terdapat dalam GIS9?", "a" => "Terdapat pelbagai kategori data geospatial termasuk guna tanah, sempadan pentadbiran, infrastruktur utiliti, kemudahan awam, hidrografi, dan data sosio-ekonomi. Contoh data spesifik termasuk guna tanah semasa, lokasi WiFi percuma, sempadan kampung, dan lokasi fasiliti kesihatan." ],
-    [ "q" => "Adakah semua data boleh diakses oleh orang awam?", "a" => "Tidak. Data GIS9 dikategorikan kepada dua: <br><br><strong>1. Data Terhad:</strong> Data rasmi berkepentingan yang dikelaskan sebagai Rahsia Besar, Rahsia, dan Terhad. Pengguna perlu memohon kebenaran daripada agensi berkaitan.<br><strong>2. Data Tidak Terhad:</strong> Data tersedia yang boleh digunakan secara bebas dan dikongsikan oleh orang awam." ],
-    [ "q" => "Dalam format apakah data ini disediakan?", "a" => "Data geospatial boleh didapati dalam format digital seperti GIS Shapefile (.shp), Microsoft Excel, dan AutoCAD." ],
-    [ "q" => "Bagaimanakah cara untuk saya mendapatkan data GIS9?", "a" => "Anda boleh membuat permohonan dengan mengisi Borang Permohonan Data atau menghantar surat permohonan data kepada agensi berkaitan (pemilik data/custodian). Proses ini tertakluk kepada kelulusan agensi tersebut terutamanya bagi data berkategori Terhad." ],
-    [ "q" => "Adakah data GIS9 dikenakan bayaran?", "a" => "Ya, penjualan data dikenakan bayaran mengikut kategori pengguna dan jenis data (digital atau bercetak) berdasarkan kadar yang telah diluluskan oleh Majlis Mesyuarat Kerajaan Negeri (MMKN). Walau bagaimanapun, terdapat pengecualian bayaran bagi agensi kerajaan tertentu dan untuk tujuan akademik." ],
-    [ "q" => "Bolehkah saya memohon data yang telah diolah mengikut keperluan spesifik saya?", "a" => "Boleh. Selain 'Data Tersedia' (data mentah tanpa suntingan), terdapat pilihan untuk 'Data Diolah', iaitu data sedia ada yang disunting secara spesifik mengikut keperluan pemohon." ],
-    [ "q" => "Apakah aplikasi yang boleh saya akses melalui Portal GIS9?", "a" => "Portal GIS9 menawarkan pelbagai aplikasi dan modul termasuk:<br><ul><li>Aplikasi Pemetaan Interaktif</li><li>Modul Carian Tanah</li><li>Modul Kemudahan Masyarakat (Pendidikan & Kesihatan)</li><li>Modul Perancangan dan Pembangunan</li></ul>" ],
-    [ "q" => "Adakah terdapat aplikasi mudah alih (mobile app) untuk GIS9?", "a" => "Ya, terdapat modul GIS9 Mobile yang membolehkan capaian aplikasi melalui peranti mudah alih." ],
-    [ "q" => "Siapakah yang perlu saya hubungi jika mempunyai pertanyaan lanjut?", "a" => "Anda boleh menghubungi pentadbir GIS9 melalui butiran berikut:<br>Telefon: 06-7659713<br>Emel: gis9@ns.gov.my<br>Laman Web: gis9.ns.gov.my" ]
-];
-?>
-
 <!DOCTYPE html>
 <html lang="ms">
 <head>
@@ -136,29 +12,22 @@ $faqs = [
     <style>
         /* --- MODERN GLASSMORPHISM THEME --- */
         :root {
-            /* Background Gradient */
             --bg-gradient: linear-gradient(135deg, #0f172a 0%, #1e1b4b 50%, #312e81 100%);
-            
-            /* Glass Variables */
             --glass-bg: rgba(255, 255, 255, 0.05);
             --glass-border: rgba(255, 255, 255, 0.1);
             --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
             --glass-blur: blur(12px);
-            
-            /* Text */
             --text-main: #ffffff;
             --text-muted: #94a3b8;
-            --accent: #60a5fa; /* Cyan/Light Blue */
+            --accent: #60a5fa;
             --accent-glow: 0 0 15px rgba(96, 165, 250, 0.5);
-            
-            /* Sidebar width */
             --sb-width: 280px;
         }
 
         body {
             font-family: 'Outfit', sans-serif;
             background: var(--bg-gradient);
-            background-attachment: fixed; /* Parallax feel */
+            background-attachment: fixed;
             color: var(--text-main);
             min-height: 100vh;
             overflow-x: hidden;
@@ -169,17 +38,19 @@ $faqs = [
         
         #sidebar {
             width: var(--sb-width); min-width: var(--sb-width);
-            background: rgba(15, 23, 42, 0.6); /* Semi-transparent sidebar */
+            background: rgba(15, 23, 42, 0.6);
             backdrop-filter: var(--glass-blur);
             border-right: 1px solid var(--glass-border);
             height: 100vh; position: fixed; top: 0; left: 0; z-index: 1000;
             display: flex; flex-direction: column;
+            transition: margin-left 0.3s;
         }
         
         #content {
             flex-grow: 1; margin-left: var(--sb-width);
             display: flex; flex-direction: column;
             position: relative;
+            transition: margin-left 0.3s;
         }
 
         /* --- SIDEBAR COMPONENTS --- */
@@ -212,7 +83,7 @@ $faqs = [
             text-align: center; color: var(--text-muted); font-size: 0.8rem;
         }
 
-        /* --- HERO BANNER (GLASS OVERLAY) --- */
+        /* --- HERO BANNER --- */
         .hero-section {
             position: relative; height: 420px; overflow: hidden;
             margin: 20px; border-radius: 20px; box-shadow: var(--glass-shadow);
@@ -225,12 +96,11 @@ $faqs = [
         }
         .hero-overlay {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(15, 23, 42, 0.4); /* Darkening layer */
+            background: rgba(15, 23, 42, 0.4);
             display: flex; align-items: center; justify-content: center; flex-direction: column;
             backdrop-filter: blur(2px);
         }
         
-        /* 3D Text & Logo */
         .logo-float { height: 100px; margin-bottom: 20px; animation: float 6s infinite ease-in-out; filter: drop-shadow(0 0 20px rgba(96,165,250,0.6)); }
         @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
         
@@ -304,6 +174,8 @@ $faqs = [
         .agency-head {
             padding: 20px; cursor: pointer; display: flex; justify-content: space-between; align-items: center;
         }
+        .agency-body { display: none; background: rgba(0,0,0,0.2); }
+        .agency-body.show { display: block; }
         .dataset-row {
             padding: 15px 20px; border-top: 1px solid rgba(255,255,255,0.05); display: flex; justify-content: space-between; align-items: center; font-size: 0.9rem;
         }
@@ -311,7 +183,7 @@ $faqs = [
         .st-open { background: rgba(34, 197, 94, 0.2); color: #4ade80; border: 1px solid #22c55e; }
         .st-lock { background: rgba(239, 68, 68, 0.2); color: #f87171; border: 1px solid #ef4444; }
 
-        /* --- FOOTER (STRUCTURED GRID) --- */
+        /* --- FOOTER --- */
         footer {
             margin-top: 60px; padding: 60px 0 30px 0;
             background: rgba(15, 23, 42, 0.8); backdrop-filter: blur(20px);
@@ -363,7 +235,7 @@ $faqs = [
     
     <nav id="sidebar">
         <div class="sidebar-brand">
-            <img src="gis9.png" alt="GIS9">
+            <img src="gis9.png" alt="GIS9" onerror="this.style.display='none'">
             <div>
                 <h5>GIS9</h5>
                 <span style="font-size:0.7rem; color:var(--text-muted); text-transform:uppercase;">Portal Geospatial</span>
@@ -387,7 +259,7 @@ $faqs = [
     <div id="content">
         
         <div class="mobile-header">
-            <img src="gis9.png" height="30">
+            <div class="fw-bold text-white">GIS9</div>
             <button class="btn btn-outline-light btn-sm" onclick="toggleSidebar()"><i class="fas fa-bars"></i></button>
         </div>
 
@@ -395,7 +267,7 @@ $faqs = [
             <div class="hero-section">
                 <iframe src="https://www.youtube.com/embed/v7D1i109qZA?autoplay=1&mute=1&controls=0&loop=1&playlist=v7D1i109qZA&showinfo=0&rel=0" frameborder="0" allow="autoplay; encrypted-media"></iframe>
                 <div class="hero-overlay">
-                    <img src="gis9.png" class="logo-float">
+                    <img src="gis9.png" class="logo-float" onerror="this.style.display='none'">
                     <div class="text-3d">SISTEM MAKLUMAT GEOGRAFI</div>
                     <div class="text-sub">NEGERI SEMBILAN</div>
                 </div>
@@ -421,19 +293,7 @@ $faqs = [
                 </div>
 
                 <div class="row g-4" id="appGrid">
-                    <?php foreach ($apps as $app): ?>
-                    <div class="col-md-6 col-xl-4 app-box" data-cat="<?php echo $app['cat']; ?>" data-title="<?php echo strtolower($app['title']); ?>">
-                        <a href="<?php echo $app['url']; ?>" target="_blank" class="text-decoration-none">
-                            <div class="glass-card">
-                                <div class="icon-glow"><i class="fas <?php echo getIcon($app['title']); ?>"></i></div>
-                                <div class="card-title"><?php echo $app['title']; ?></div>
-                                <div class="card-desc"><?php echo $app['desc']; ?></div>
-                                <span class="card-badge"><?php echo $app['cat']; ?></span>
-                            </div>
-                        </a>
                     </div>
-                    <?php endforeach; ?>
-                </div>
                 <div id="noApps" class="text-center py-5 d-none text-muted">Tiada aplikasi dijumpai.</div>
             </div>
 
@@ -448,17 +308,17 @@ $faqs = [
                 <div class="row g-4">
                     <div class="col-md-4"><div class="glass-card text-center"><i class="fas fa-briefcase fa-2x mb-3 text-info"></i><h5>UPEN</h5><p class="text-muted">Pemilik Dasar</p></div></div>
                     <div class="col-md-4"><div class="glass-card text-center"><i class="fas fa-server fa-2x mb-3 text-info"></i><h5>UPTM</h5><p class="text-muted">Teknikal & ICT</p></div></div>
-                    <div class="col-md-4"><div class="glass-card text-center"><i class="fas fa-map-marked fa-2x mb-3 text-info"></i><h5>Jabatan Perancangan Bandar Dan Desa @Negeri Sembilan</h5><p class="text-muted">Pakar Rujuk</p></div></div>
+                    <div class="col-md-4"><div class="glass-card text-center"><i class="fas fa-map-marked fa-2x mb-3 text-info"></i><h5>PLANMalaysia @NS</h5><p class="text-muted">Pakar Rujuk</p></div></div>
                 </div>
             </div>
 
             <div id="view-catalog" class="spa-view">
                 <div class="d-flex justify-content-between align-items-end mb-4">
                     <h3 class="fw-bold m-0 text-white">Katalog Data</h3>
-                    <span class="card-badge bg-primary text-white border-0"><?php echo $total_data; ?> Dataset</span>
+                    <span class="card-badge bg-primary text-white border-0" id="totalDataCount">0 Dataset</span>
                 </div>
 
-                <img src="katalogdata.png" class="catalog-banner" alt="Katalog">
+                <img src="katalogdata.png" class="catalog-banner" alt="Katalog" onerror="this.style.display='none'">
 
                 <div class="glass-input-wrapper mb-4">
                     <i class="fas fa-search text-muted"></i>
@@ -470,48 +330,14 @@ $faqs = [
                 </div>
 
                 <div class="row g-4" id="catalogGrid">
-                    <?php $i=0; foreach ($grouped_data as $agensi => $items): $i++; ?>
-                    <div class="col-xl-6 agency-box" data-ag="<?php echo strtolower($agensi); ?>">
-                        <div class="agency-glass h-100">
-                            <div class="agency-head" onclick="toggleAgency(<?php echo $i; ?>)">
-                                <span class="fw-bold text-white"><?php echo $agensi; ?></span>
-                                <span class="badge bg-primary rounded-pill"><?php echo count($items); ?></span>
-                            </div>
-                            <div id="ag-body-<?php echo $i; ?>" class="agency-body">
-                                <?php foreach ($items as $row): $open = strpos(strtolower($row['status']), 'tidak terhad') !== false; ?>
-                                <div class="dataset-row" data-txt="<?php echo strtolower($row['data']); ?>">
-                                    <span style="color:#e2e8f0;"><?php echo $row['data']; ?></span>
-                                    <span class="status-badge <?php echo $open ? 'st-open' : 'st-lock'; ?>">
-                                        <i class="fas <?php echo $open ? 'fa-globe' : 'fa-lock'; ?> me-1"></i>
-                                        <?php echo $open ? 'Terbuka' : 'Terhad'; ?>
-                                    </span>
-                                </div>
-                                <?php endforeach; ?>
-                            </div>
-                        </div>
-                    </div>
-                    <?php endforeach; ?>
-                </div>
+                     </div>
                 <div id="noData" class="text-center py-5 d-none text-muted">Tiada data dijumpai.</div>
             </div>
 
             <div id="view-faq" class="spa-view">
                 <h3 class="fw-bold mb-4 text-white">Soalan Lazim</h3>
                 <div id="faqList">
-                    <?php foreach ($faqs as $k => $f): ?>
-                    <div class="agency-glass mb-3">
-                        <div class="agency-head" data-bs-toggle="collapse" data-bs-target="#f-<?php echo $k; ?>">
-                            <span class="fw-bold text-white"><?php echo $f['q']; ?></span>
-                            <i class="fas fa-chevron-down small text-muted"></i>
-                        </div>
-                        <div id="f-<?php echo $k; ?>" class="collapse" data-bs-parent="#faqList">
-                            <div class="p-4 border-top border-secondary" style="color:#e2e8f0 !important; border-color:rgba(255,255,255,0.1)!important;">
-                                <?php echo $f['a']; ?>
-                            </div>
-                        </div>
-                    </div>
-                    <?php endforeach; ?>
-                </div>
+                     </div>
             </div>
 
         </div>
@@ -569,7 +395,7 @@ $faqs = [
                     <span onclick="openInfo('terma')">Terma & Syarat</span> &bull;
                     <span onclick="openInfo('penafian')">Penafian</span>
                 </div>
-                <div>&copy; <?php echo date("Y"); ?> Hak Cipta Terpelihara Kerajaan Negeri Sembilan.</div>
+                <div>&copy; 2026 Hak Cipta Terpelihara Kerajaan Negeri Sembilan.</div>
             </div>
         </footer>
 
@@ -580,7 +406,7 @@ $faqs = [
     <div class="modal-dialog modal-lg modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header"><h5 class="modal-title fw-bold">Kadar Harga Data</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div>
-            <div class="modal-body p-0 text-center bg-dark"><img src="kadar_harga.jpg" class="img-fluid"></div>
+            <div class="modal-body p-0 text-center bg-dark"><img src="kadar_harga.jpg" class="img-fluid" onerror="this.alt='Sila masukkan gambar kadar_harga.jpg'"></div>
             <div class="modal-footer"><a href="kadar_harga.jpg" download class="btn btn-primary">Muat Turun</a></div>
         </div>
     </div>
@@ -596,7 +422,220 @@ $faqs = [
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
 <script>
+    // --- DATA DARI PHP DITUKAR KE JS ---
+    const apps = [
+        { "title": "Pemetaan Awam", "url": "https://gis9.ns.gov.my/arcgisportal/apps/webappviewer/index.html?id=7a319cbeff7c4b9a9f2dfc569580db13", "cat": "Awam", "desc": "Carian lot dan maklumat asas tanah." },
+        { "title": "NS Kampung Kito", "url": "https://gis9.ns.gov.my/arcgisportal/apps/webappviewer/index.html?id=9cec57e1916442079951795208d6c56c", "cat": "Awam", "desc": "Profil dan demografi kampung tradisional." },
+        { "title": "Rebakan Bandar", "url": "https://gis9.ns.gov.my/arcgisportal/apps/webappviewer/index.html?id=634d388cc7f34343b15b24b2f0c54139", "cat": "Awam", "desc": "Analisis spatial perubahan guna tanah." },
+        { "title": "Masjid & Surau", "url": "https://gis9.ns.gov.my/arcgisportal/apps/webappviewer/index.html?id=7742210edb004d5d816b4a5de52a8956", "cat": "Map Gallery", "desc": "Lokasi masjid dan surau berdaftar." },
+        { "title": "Fasiliti Kesihatan", "url": "https://gis9.ns.gov.my/arcgisportal/apps/webappviewer/index.html?id=efa73d4a1400491eb7d4948146f05bde", "cat": "Map Gallery", "desc": "Hospital, klinik kesihatan dan klinik desa." },
+        { "title": "Perhutanan", "url": "https://gis9.ns.gov.my/arcgisportal/apps/webappviewer/index.html?id=34288aeb813a4d2c8a5717304d0c57c1", "cat": "Map Gallery", "desc": "Hutan simpan kekal dan rekreasi." },
+        { "title": "Pelancongan", "url": "https://gis9.ns.gov.my/arcgisportal/apps/webappviewer/index.html?id=250964cba55945a0ba7ed54efe333453", "cat": "Map Gallery", "desc": "Lokasi menarik dan produk pelancongan." },
+        { "title": "Pertanian", "url": "https://gis9.ns.gov.my/arcgisportal/apps/webappviewer/index.html?id=ddadba5d12994d95a1ff1a686ffe8555", "cat": "Map Gallery", "desc": "Guna tanah pertanian dan jelapang padi." },
+        { "title": "Pengangkutan", "url": "https://gis9.ns.gov.my/arcgisportal/apps/webappviewer/index.html?id=c408c412ba524f939231c3017c1c11d5", "cat": "Map Gallery", "desc": "Jalan raya, rel dan terminal." },
+        { "title": "Pola Petempatan", "url": "https://gis9.ns.gov.my/arcgisportal/apps/webappviewer/index.html?id=d13f9e2498194cd0ab9d90c83a4d148e", "cat": "Map Gallery", "desc": "Taburan perumahan dan penduduk." },
+        { "title": "Saliran Utama", "url": "https://gis9.ns.gov.my/arcgisportal/apps/webappviewer/index.html?id=3cf0706eaf8b495d9b1066de230c634e", "cat": "Map Gallery", "desc": "Sungai dan sistem perparitan utama." },
+        { "title": "Gunatanah Semasa", "url": "https://gis9.ns.gov.my/arcgisportal/apps/webappviewer/index.html?id=11d2fe0346e0401bb179b5deaf98c85b", "cat": "Map Gallery", "desc": "Rujukan perancangan pembangunan." },
+        { "title": "PDRM", "url": "https://gis9.ns.gov.my/arcgisportal/apps/webappviewer/index.html?id=7360c980d1044dce93d50e6c9a35d239", "cat": "Map Gallery", "desc": "IPK, IPD dan balai polis." },
+        { "title": "Pendidikan (JPNS)", "url": "https://gis9.ns.gov.my/arcgisportal/apps/webappviewer/index.html?id=b728735c4a2240528ca1ebe2b8dd627c", "cat": "Pemetaan", "desc": "Lokasi institusi pendidikan." },
+        { "title": "Bencana Banjir", "url": "https://gis9.ns.gov.my/arcgisportal/apps/webappviewer/index.html?id=8a027eec94694c5c933d483ccd4fb0a0", "cat": "Pemetaan", "desc": "Zon risiko banjir dan pusat pemindahan." },
+        { "title": "Risiko Pencemaran", "url": "https://gis9.ns.gov.my/arcgisportal/apps/webappviewer/index.html?id=07166d2be5814c0f910db172731c37fd", "cat": "Pemetaan", "desc": "Lokasi penternakan dan sisa ternakan." },
+        { "title": "Banjir & Kemarau", "url": "https://gis9.ns.gov.my/arcgisportal/apps/webappviewer/index.html?id=8a027eec94694c5c933d483ccd4fb0a0", "cat": "Pemetaan", "desc": "Pengurusan risiko bencana air." },
+        { "title": "Operasi Bomba", "url": "https://gis9.ns.gov.my/arcgisportal/apps/webappviewer/index.html?id=e1c495da389f4206a49d8beb9e116787", "cat": "Pemetaan", "desc": "Perancangan operasi dan pili bomba." },
+        { "title": "Utiliti", "url": "https://gis9.ns.gov.my/arcgisportal/apps/webappviewer/index.html?id=0223222584f04a9da680f3cafaae5db0", "cat": "Pemetaan", "desc": "Infrastruktur utiliti dan telekomunikasi." },
+        { "title": "Pelaburan", "url": "https://gis9.ns.gov.my/arcgisportal/apps/webappviewer/index.html?id=81ae1165b868495792b4536d115abed6", "cat": "Pemetaan", "desc": "Kawasan industri dan lot pelabur." },
+        { "title": "Analisis Rebakan", "url": "https://gis9.ns.gov.my/arcgisportal/apps/webappviewer/index.html?id=634d388cc7f34343b15b24b2f0c54139", "cat": "Pemetaan", "desc": "Arah tuju pembangunan tepu bina." },
+        { "title": "Data Kampung", "url": "https://gis9.ns.gov.my/arcgisportal/apps/webappviewer/index.html?id=9cec57e1916442079951795208d6c56c", "cat": "Pemetaan", "desc": "Pangkalan data geospatial kampung." },
+        { "title": "Tanah SUKNS", "url": "https://gis9.ns.gov.my/arcgisportal/apps/webappviewer/index.html?id=95dd9113397f484fb695b405521389c6", "cat": "Pemetaan", "desc": "Inventori tanah milik kerajaan." },
+        { "title": "Dashboard Aras Air", "url": "https://gis9.ns.gov.my/arcgisportal/apps/dashboards/2cbd9a9c9c8e4d5d8fcc5ee1c7410845", "cat": "Dashboard", "desc": "Stesen aras air dan hujan telemetri." },
+        { "title": "Dashboard Pencemaran", "url": "https://gis9.ns.gov.my/arcgisportal/apps/dashboards/0c38997d1f9342ddbf4b6a7d1776cf00", "cat": "Dashboard", "desc": "Indeks kualiti udara dan air sungai." },
+        { "title": "Dashboard Kemarau", "url": "https://gis9.ns.gov.my/arcgisportal/apps/dashboards/57297f88f1ce42e88b8ba03f97cc2778", "cat": "Dashboard", "desc": "Taburan hujan dan kapasiti empangan." },
+        { "title": "Dashboard Bomba", "url": "https://gis9.ns.gov.my/arcgisportal/apps/dashboards/728a749551fb4b1bbe832fa5b976d474", "cat": "Dashboard", "desc": "Statistik operasi dan aset bomba." },
+        { "title": "Dashboard Utiliti", "url": "https://gis9.ns.gov.my/arcgisportal/apps/dashboards/2c47f9d3356d430dbeae8a4f8a417171", "cat": "Dashboard", "desc": "Pemantauan infrastruktur." },
+        { "title": "Dashboard Pelaburan", "url": "https://gis9.ns.gov.my/arcgisportal/apps/dashboards/bec73f60e471461da3d97d495f966528", "cat": "Dashboard", "desc": "Trend pelaburan dan tanah industri." },
+        { "title": "Dashboard Rebakan", "url": "https://gis9.ns.gov.my/arcgisportal/apps/dashboards/3f95d69830204668ab0e4bc8515d5413", "cat": "Dashboard", "desc": "Pertumbuhan kawasan tepu bina." },
+        { "title": "Dashboard Kampung", "url": "https://gis9.ns.gov.my/arcgisportal/apps/dashboards/e56680042a544f59add01952cb663054", "cat": "Dashboard", "desc": "Statistik penduduk NSKampungKito." },
+        { "title": "Dashboard Tanah", "url": "https://gis9.ns.gov.my/arcgisportal/apps/dashboards/fa7e8273a5d149daa1edff81dbe177fe", "cat": "Dashboard", "desc": "Status tanah milik kerajaan." },
+        { "title": "Dashboard Pendidikan", "url": "https://gis9.ns.gov.my/arcgisportal/apps/dashboards/6eb7b4cae44543ccac89fc794dfcff85", "cat": "Dashboard", "desc": "Statistik sekolah dan institusi." },
+        { "title": "Dashboard Vet", "url": "https://gis9.ns.gov.my/arcgisportal/apps/dashboards/1a0c0bbb63e34651ad3ddc6e5c42d9c3", "cat": "Dashboard", "desc": "Ladang ternakan dan akuakultur." }
+    ];
+
+    const rawData = [
+        {"agensi": "Jabatan Perancangan Bandar Dan Desa Negeri Sembilan", "data": "Guna Tanah Semasa Negeri Sembilan", "status": "Terhad"},
+        {"agensi": "Jabatan Perancangan Bandar Dan Desa Negeri Sembilan", "data": "Guna Tanah Zoning Negeri Sembilan", "status": "Terhad"},
+        {"agensi": "Jabatan Perancangan Bandar Dan Desa Negeri Sembilan", "data": "Sempadan MPKK", "status": "Terhad"},
+        {"agensi": "Jabatan Perancangan Bandar Dan Desa Negeri Sembilan", "data": "Guna Tanah Komited Negeri Sembilan", "status": "Tidak Terhad"},
+        {"agensi": "Jabatan Perancangan Bandar Dan Desa Negeri Sembilan", "data": "Guna Tanah Lapang Awam (TLA)", "status": "Tidak Terhad"},
+        {"agensi": "Unit Perancang Ekonomi Negeri Sembilan", "data": "Lokasi Wifi Percuma", "status": "Tidak Terhad"},
+        {"agensi": "Jabatan Ukur Dan Pemetaan Malaysia Negeri Sembilan", "data": "Garisan Sempadan (Negeri, Daerah, Mukim)", "status": "Tidak Terhad"},
+        {"agensi": "Jabatan Ukur Dan Pemetaan Malaysia Negeri Sembilan", "data": "Lot-lot kadaster (NDCDB Lot)", "status": "Terhad"},
+        {"agensi": "Jabatan Kerja Raya Negeri Sembilan", "data": "Jajaran jalan & Cadangan Lingkaran Jalan", "status": "Terhad"},
+        {"agensi": "Jabatan Pertanian Negeri Sembilan", "data": "Data Padi Negeri Sembilan", "status": "Tidak Terhad"},
+        {"agensi": "Jabatan Perhutanan Negeri Sembilan", "data": "Sempadan & Pengkelasan Hutan", "status": "Terhad"},
+        {"agensi": "Jabatan Pengairan Dan Saliran Negeri Sembilan", "data": "Lembangan Sungai, Kolam Tadahan", "status": "Terhad/Tidak Terhad"},
+        {"agensi": "Jabatan Hal Ehwal Agama Islam Negeri Sembilan", "data": "Lokasi Masjid & Surau", "status" => "Tidak Terhad"}, // Fixed typo in copy paste
+        {"agensi": "Jabatan Hal Ehwal Agama Islam Negeri Sembilan", "data": "Lokasi Masjid & Surau", "status": "Tidak Terhad"},
+        {"agensi": "Jabatan Pendidikan Negeri Sembilan", "data": "Lokasi Sekolah", "status": "Tidak Terhad"},
+        {"agensi": "Jabatan Kesihatan Negeri Sembilan", "data": "Fasiliti Kesihatan", "status": "Tidak Terhad"},
+        {"agensi": "Jabatan Perancangan Bandar Dan Desa Negeri Sembilan", "data": "Rancangan Tempatan Daerah", "status": "Terhad"},
+        {"agensi": "Majlis Bandaraya Seremban", "data": "Maklumat Taman, Sempadan Perumahan", "status": "Terhad"},
+        {"agensi": "Majlis Perbandaran Port Dickson", "data": "Data Komited C1", "status": "Terhad"},
+        {"agensi": "Jabatan Alam Sekitar Negeri Sembilan", "data": "Stesen Kualiti Air Sungai", "status": "Tidak Terhad"},
+        {"agensi": "Syarikat Air Negeri Sembilan", "data": "Jajaran Paip Air", "status": "Terhad"},
+        {"agensi": "Tenaga Nasional Berhad", "data": "Pencawang & Kabel Elektrik", "status": "Terhad"},
+        {"agensi": "Polis Diraja Malaysia", "data": "Lokasi Balai Polis", "status": "Terhad"},
+        {"agensi": "Jabatan Bomba Dan Penyelamat Malaysia Negeri Sembilan", "data": "Lokasi Balai Bomba & Pili Bomba", "status": "Terhad"},
+        {"agensi": "Suruhanjaya Komunikasi dan Multimedia Malaysia", "data": "Lokasi Menara Telekomunikasi", "status": "Terhad"},
+        {"agensi": "Indah Water Konsortium", "data": "Loji Rawatan Kumbahan", "status": "Terhad"}
+    ];
+
+    const faqs = [
+        { "q": "Apakah itu GIS9?", "a": "GIS9 adalah singkatan bagi Sistem Maklumat Geografi Negeri Sembilan. Ia merupakan satu sistem aplikasi berasaskan GIS yang dibangunkan untuk menyokong perancangan dan pemantauan guna tanah serta pembangunan infrastruktur data geospatial di peringkat negeri." },
+        { "q": "Siapakah yang menguruskan dan mentadbir GIS9?", "a": "GIS9 ditadbir urus oleh tiga entiti utama Kerajaan Negeri iaitu Unit Perancang Ekonomi Negeri (UPEN), Unit Pengurusan Teknologi Maklumat (UPTM), dan Jabatan Perancangan Bandar dan Desa Negeri Sembilan (PLANMalaysia Negeri Sembilan) yang bertindak sebagai Pakar Rujuk (Subject Matter Expert). Pentadbiran ini turut dibantu oleh Agensi Pembekal Data (APD)." },
+        { "q": "Apakah visi dan misi GIS9?", "a": "Visi GIS9 adalah 'Pengurusan Perkhidmatan dan Perkongsian Geospatial ke Arah Negeri Sembilan yang Mampan dan Sejahtera'. Misinya pula adalah menerajui pengurusan dan perkongsian geospatial yang berkualiti dan efisien sebagai pemangkin pertumbuhan ekonomi dan kesejahteraan negeri." },
+        { "q": "Dari manakah data geospatial GIS9 diperolehi?", "a": "Data diperolehi daripada Agensi Pembekal Data (APD) yang terdiri daripada agensi Kerajaan Negeri dan Persekutuan, Pihak Berkuasa Tempatan (PBT), dan Pejabat Daerah dan Tanah (PDT) yang telah berdaftar dengan pentadbir GIS9. Terdapat 35 agensi yang terlibat sebagai APD setakat Oktober 2023." },
+        { "q": "Apakah jenis data yang terdapat dalam GIS9?", "a": "Terdapat pelbagai kategori data geospatial termasuk guna tanah, sempadan pentadbiran, infrastruktur utiliti, kemudahan awam, hidrografi, dan data sosio-ekonomi. Contoh data spesifik termasuk guna tanah semasa, lokasi WiFi percuma, sempadan kampung, dan lokasi fasiliti kesihatan." },
+        { "q": "Adakah semua data boleh diakses oleh orang awam?", "a": "Tidak. Data GIS9 dikategorikan kepada dua: <br><br><strong>1. Data Terhad:</strong> Data rasmi berkepentingan yang dikelaskan sebagai Rahsia Besar, Rahsia, dan Terhad. Pengguna perlu memohon kebenaran daripada agensi berkaitan.<br><strong>2. Data Tidak Terhad:</strong> Data tersedia yang boleh digunakan secara bebas dan dikongsikan oleh orang awam." },
+        { "q": "Dalam format apakah data ini disediakan?", "a": "Data geospatial boleh didapati dalam format digital seperti GIS Shapefile (.shp), Microsoft Excel, dan AutoCAD." },
+        { "q": "Bagaimanakah cara untuk saya mendapatkan data GIS9?", "a": "Anda boleh membuat permohonan dengan mengisi Borang Permohonan Data atau menghantar surat permohonan data kepada agensi berkaitan (pemilik data/custodian). Proses ini tertakluk kepada kelulusan agensi tersebut terutamanya bagi data berkategori Terhad." },
+        { "q": "Adakah data GIS9 dikenakan bayaran?", "a": "Ya, penjualan data dikenakan bayaran mengikut kategori pengguna dan jenis data (digital atau bercetak) berdasarkan kadar yang telah diluluskan oleh Majlis Mesyuarat Kerajaan Negeri (MMKN). Walau bagaimanapun, terdapat pengecualian bayaran bagi agensi kerajaan tertentu dan untuk tujuan akademik." },
+        { "q": "Bolehkah saya memohon data yang telah diolah mengikut keperluan spesifik saya?", "a": "Boleh. Selain 'Data Tersedia' (data mentah tanpa suntingan), terdapat pilihan untuk 'Data Diolah', iaitu data sedia ada yang disunting secara spesifik mengikut keperluan pemohon." },
+        { "q": "Apakah aplikasi yang boleh saya akses melalui Portal GIS9?", "a": "Portal GIS9 menawarkan pelbagai aplikasi dan modul termasuk:<br><ul><li>Aplikasi Pemetaan Interaktif</li><li>Modul Carian Tanah</li><li>Modul Kemudahan Masyarakat (Pendidikan & Kesihatan)</li><li>Modul Perancangan dan Pembangunan</li></ul>" },
+        { "q": "Adakah terdapat aplikasi mudah alih (mobile app) untuk GIS9?", "a": "Ya, terdapat modul GIS9 Mobile yang membolehkan capaian aplikasi melalui peranti mudah alih." },
+        { "q": "Siapakah yang perlu saya hubungi jika mempunyai pertanyaan lanjut?", "a": "Anda boleh menghubungi pentadbir GIS9 melalui butiran berikut:<br>Telefon: 06-7659713<br>Emel: gis9@ns.gov.my<br>Laman Web: gis9.ns.gov.my" }
+    ];
+
+    // --- HELPER FUNCTIONS ---
+    function getIcon(title) {
+        let t = title.toLowerCase();
+        if (t.includes('banjir') || t.includes('air')) return 'fa-water';
+        if (t.includes('pencemaran')) return 'fa-biohazard';
+        if (t.includes('bomba')) return 'fa-fire-extinguisher';
+        if (t.includes('tanah') || t.includes('rebakan')) return 'fa-map-marked-alt';
+        if (t.includes('pendidikan') || t.includes('sekolah')) return 'fa-graduation-cap';
+        if (t.includes('masjid')) return 'fa-mosque';
+        if (t.includes('kesihatan')) return 'fa-hospital';
+        if (t.includes('hutan') || t.includes('pertanian')) return 'fa-tree';
+        if (t.includes('polis')) return 'fa-user-shield';
+        if (t.includes('pelancongan')) return 'fa-umbrella-beach';
+        if (t.includes('pengangkutan')) return 'fa-bus';
+        if (t.includes('utiliti')) return 'fa-bolt';
+        if (t.includes('pelaburan')) return 'fa-chart-line';
+        if (t.includes('kampung')) return 'fa-home';
+        return 'fa-map';
+    }
+
+    // --- RENDER FUNCTIONS ---
+    function renderApps() {
+        const grid = document.getElementById('appGrid');
+        grid.innerHTML = '';
+        
+        apps.forEach(app => {
+            const icon = getIcon(app.title);
+            const html = `
+                <div class="col-md-6 col-xl-4 app-box" data-cat="${app.cat}" data-title="${app.title.toLowerCase()}">
+                    <a href="${app.url}" target="_blank" class="text-decoration-none">
+                        <div class="glass-card">
+                            <div class="icon-glow"><i class="fas ${icon}"></i></div>
+                            <div class="card-title">${app.title}</div>
+                            <div class="card-desc">${app.desc}</div>
+                            <span class="card-badge">${app.cat}</span>
+                        </div>
+                    </a>
+                </div>
+            `;
+            grid.innerHTML += html;
+        });
+    }
+
+    function renderCatalog() {
+        const grid = document.getElementById('catalogGrid');
+        grid.innerHTML = '';
+        
+        // Grouping logic (replaces PHP array grouping)
+        const grouped = {};
+        rawData.forEach(item => {
+            if (!grouped[item.agensi]) grouped[item.agensi] = [];
+            grouped[item.agensi].push(item);
+        });
+
+        // Sorting Keys Alphabetically
+        const sortedAgencies = Object.keys(grouped).sort();
+
+        let count = 0;
+        sortedAgencies.forEach((agensi, index) => {
+            const items = grouped[agensi];
+            let listHtml = '';
+            
+            items.forEach(row => {
+                const isOpen = row.status.toLowerCase().includes('tidak terhad');
+                const badgeClass = isOpen ? 'st-open' : 'st-lock';
+                const icon = isOpen ? 'fa-globe' : 'fa-lock';
+                const statusText = isOpen ? 'Terbuka' : 'Terhad';
+                
+                listHtml += `
+                    <div class="dataset-row" data-txt="${row.data.toLowerCase()}">
+                        <span style="color:#e2e8f0;">${row.data}</span>
+                        <span class="status-badge ${badgeClass}">
+                            <i class="fas ${icon} me-1"></i> ${statusText}
+                        </span>
+                    </div>
+                `;
+            });
+
+            const html = `
+                <div class="col-xl-6 agency-box" data-ag="${agensi.toLowerCase()}">
+                    <div class="agency-glass h-100">
+                        <div class="agency-head" onclick="toggleAgency(${index})">
+                            <span class="fw-bold text-white">${agensi}</span>
+                            <span class="badge bg-primary rounded-pill">${items.length}</span>
+                        </div>
+                        <div id="ag-body-${index}" class="agency-body">
+                            ${listHtml}
+                        </div>
+                    </div>
+                </div>
+            `;
+            grid.innerHTML += html;
+            count++;
+        });
+        
+        document.getElementById('totalDataCount').innerText = rawData.length + " Dataset";
+    }
+
+    function renderFaq() {
+        const list = document.getElementById('faqList');
+        list.innerHTML = '';
+        
+        faqs.forEach((f, k) => {
+            const html = `
+                <div class="agency-glass mb-3">
+                    <div class="agency-head" data-bs-toggle="collapse" data-bs-target="#f-${k}">
+                        <span class="fw-bold text-white">${f.q}</span>
+                        <i class="fas fa-chevron-down small text-muted"></i>
+                    </div>
+                    <div id="f-${k}" class="collapse" data-bs-parent="#faqList">
+                        <div class="p-4 border-top border-secondary" style="color:#e2e8f0 !important; border-color:rgba(255,255,255,0.1)!important;">
+                            ${f.a}
+                        </div>
+                    </div>
+                </div>
+            `;
+            list.innerHTML += html;
+        });
+    }
+
+    // --- INIT ---
+    document.addEventListener('DOMContentLoaded', () => {
+        renderApps();
+        renderCatalog();
+        renderFaq();
+        updateStats(); // Clock and Visitor count
+    });
+
+
     // --- NAVIGATION LOGIC ---
     function switchView(id) {
         document.querySelectorAll('.spa-view').forEach(el => el.classList.remove('active'));
@@ -629,11 +668,14 @@ $faqs = [
         let h = parseInt(localStorage.getItem('g9_hits') || 0);
         h++; localStorage.setItem('g9_hits', h);
         
-        document.getElementById('v-today').innerText = (day+h).toLocaleString();
-        document.getElementById('v-week').innerText = (week+h).toLocaleString();
-        document.getElementById('v-month').innerText = (month+h).toLocaleString();
-        document.getElementById('v-year').innerText = (year+h).toLocaleString();
-        document.getElementById('clock').innerText = d.toLocaleString('ms-MY');
+        // Safety check if elements exist before updating
+        if(document.getElementById('v-today')) {
+            document.getElementById('v-today').innerText = (day+h).toLocaleString();
+            document.getElementById('v-week').innerText = (week+h).toLocaleString();
+            document.getElementById('v-month').innerText = (month+h).toLocaleString();
+            document.getElementById('v-year').innerText = (year+h).toLocaleString();
+        }
+        if(document.getElementById('clock')) document.getElementById('clock').innerText = d.toLocaleString('ms-MY');
     }
     setInterval(updateStats, 1000);
 
@@ -645,17 +687,17 @@ $faqs = [
         document.querySelectorAll('.app-box').forEach(el => {
             if(cat==='all'||el.dataset.cat===cat){el.style.display='block';c++;}else el.style.display='none';
         });
-        document.getElementById('noApps').classList.toggle('d-none', c>0);
+        document.getElementById('noApps').classList.toggle('d-none', c===0);
     }
     document.getElementById('appSearch').onkeyup = function() {
         let v=this.value.toLowerCase(), c=0;
         document.querySelectorAll('.app-box').forEach(el => {
             if(el.dataset.title.includes(v)){el.style.display='block';c++;}else el.style.display='none';
         });
-        document.getElementById('noApps').classList.toggle('d-none', c>0);
+        document.getElementById('noApps').classList.toggle('d-none', c===0);
     };
 
-    // --- CATALOG ---
+    // --- CATALOG INTERACTION ---
     function toggleAgency(id) {
         const body = document.getElementById('ag-body-' + id);
         body.classList.toggle('show');
@@ -676,7 +718,7 @@ $faqs = [
             if(m||im){el.style.display='block';c++; if(v.length>0) el.querySelector('.agency-body').classList.add('show');}
             else el.style.display='none';
         });
-        document.getElementById('noData').classList.toggle('d-none', c>0);
+        document.getElementById('noData').classList.toggle('d-none', c===0);
     };
 
     // --- LEGAL ---
