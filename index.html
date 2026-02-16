@@ -60,6 +60,7 @@
             padding: 30px; border-bottom: 1px solid var(--glass-border);
             display: flex; align-items: center; gap: 15px;
         }
+        /* Pastikan nama fail di GitHub adalah huruf kecil: gis9.png */
         .sidebar-brand img { height: 45px; filter: drop-shadow(0 0 5px rgba(255,255,255,0.5)); }
         .brand-text h5 { margin: 0; font-weight: 800; letter-spacing: 1px; color:white; }
         
@@ -238,7 +239,7 @@
     
     <nav id="sidebar">
         <div class="sidebar-brand">
-            <img src="gis9.png" alt="GIS9" onerror="this.style.display='none'">
+            <img src="gis9.png" alt="GIS9">
             <div>
                 <h5>GIS9</h5>
                 <span style="font-size:0.7rem; color:var(--text-muted); text-transform:uppercase;">Portal Geospatial</span>
@@ -270,7 +271,7 @@
             <div class="hero-section">
                 <iframe src="https://www.youtube.com/embed/v7D1i109qZA?autoplay=1&mute=1&controls=0&loop=1&playlist=v7D1i109qZA&showinfo=0&rel=0" frameborder="0" allow="autoplay; encrypted-media"></iframe>
                 <div class="hero-overlay">
-                    <img src="gis9.png" class="logo-float" onerror="this.style.display='none'">
+                    <img src="gis9.png" class="logo-float">
                     <div class="text-3d">SISTEM MAKLUMAT GEOGRAFI</div>
                     <div class="text-sub">NEGERI SEMBILAN</div>
                 </div>
@@ -321,7 +322,7 @@
                     <span class="card-badge bg-primary text-white border-0" id="totalDataCount">0 Dataset</span>
                 </div>
 
-                <img src="katalogdata.png" class="catalog-banner" alt="Katalog" onerror="this.style.display='none'">
+                <img src="katalogdata.png" class="catalog-banner" alt="Katalog">
 
                 <div class="glass-input-wrapper mb-4">
                     <i class="fas fa-search text-muted"></i>
@@ -766,10 +767,13 @@
 
     // Modal Info Logic
     const infoData = {
-        'privasi': "<strong>DASAR PRIVASI</strong>\n\nHalaman ini menerangkan dasar privasi...",
-        'keselamatan': "<strong>DASAR KESELAMATAN</strong>\n\nTeknologi terkini...",
-        'terma': `<strong>TERMA & SYARAT</strong>\n\nJika anda mengakses laman web ini...`,
-        'penafian': `<strong>PENAFIAN</strong>\n\nSemua maklumat...`
+        'privasi': "<strong>DASAR PRIVASI</strong>\n\nKerajaan Negeri Sembilan menghormati dan komited untuk melindungi privasi anda. Dasar privasi ini menerangkan bagaimana kami mengumpul, menggunakan, dan melindungi maklumat peribadi anda semasa melayari portal GIS9.\n\n1. Pengumpulan Maklumat: Kami mungkin mengumpul maklumat seperti alamat IP, jenis pelayar, dan masa akses untuk tujuan analisis statistik.\n2. Penggunaan Maklumat: Maklumat yang dikumpul digunakan untuk meningkatkan kualiti perkhidmatan dan keselamatan portal.\n3. Perkongsian Maklumat: Kami tidak akan berkongsi maklumat peribadi anda dengan pihak ketiga kecuali jika dikehendaki oleh undang-undang.",
+        
+        'keselamatan': "<strong>DASAR KESELAMATAN</strong>\n\nPortal GIS9 menggunakan teknologi keselamatan terkini untuk melindungi data daripada akses tanpa kebenaran, penggunaan, atau pendedahan.\n\n1. Penyulitan Data: Semua penghantaran data sensitif dilindungi menggunakan penyulitan SSL/TLS.\n2. Kawalan Akses: Akses kepada sistem dihadkan kepada kakitangan yang diberi kuasa sahaja.\n3. Pemantauan: Kami memantau sistem secara berterusan untuk mengesan sebarang aktiviti yang mencurigakan.",
+        
+        'terma': `<strong>TERMA & SYARAT</strong>\n\nPenggunaan portal GIS9 adalah tertakluk kepada terma dan syarat berikut:\n\n1. Hak Cipta: Semua kandungan dalam portal ini adalah hak milik Kerajaan Negeri Sembilan.\n2. Penggunaan Data: Data yang dimuat turun hanya boleh digunakan untuk tujuan rasmi atau peribadi dan tidak boleh dijual semula.\n3. Penafian: Kerajaan Negeri tidak bertanggungjawab ke atas sebarang kerugian atau kerosakan yang timbul daripada penggunaan maklumat dalam portal ini.`,
+        
+        'penafian': `<strong>PENAFIAN</strong>\n\nKerajaan Negeri Sembilan dan agensi-agensi yang terlibat dalam GIS9 tidak akan bertanggungjawab ke atas sebarang kehilangan atau kerosakan yang dialami kerana menggunakan mana-mana maklumat dalam portal ini.\n\nPengguna adalah dinasihatkan untuk menyemak semula ketepatan maklumat dengan agensi berkaitan sebelum membuat sebarang keputusan penting berdasarkan data yang dipaparkan.`
     };
     
     function openInfo(k) {
